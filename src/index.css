@@ -3,7 +3,17 @@
 @theme {
   --color-netflix-red: #e50914;
   --color-netflix-black: #141414;
+  --color-netflix-lighter: #555555;
   --color-netflix-white: #ffffff;
+
+  @keyframes slow-pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
 }
 
 body {
