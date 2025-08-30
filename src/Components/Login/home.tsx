@@ -50,8 +50,8 @@ function Home() {
 
   function handleProfileClick(profile: Profile) {
     // Navigate to the page with all the movies and such, age restricted if necessary
-    console.log(`Selected profile: ${profile.name}`);
     setClickedProfile(profile);
+
     if (profile.passwordNeeded) {
       setPasswordDisplay(true);
       setFadeOut(false);
@@ -61,9 +61,8 @@ function Home() {
   }
 
   function handlePasswordEntry(password: string) {
-    // Implement password verification logic here
+    // Password verification will eventually go here
     if (clickedProfile && clickedProfile.passwordNeeded) {
-      // Placeholder: Check if the entered password matches the stored password
       if (password === "incorrect") {
         setFadeOut(true);
 
@@ -92,7 +91,7 @@ function Home() {
             "bg-orange-500",
             "bg-yellow-500",
             "bg-green-500",
-            "bg-blue-400",
+            "bg-blue-500",
             "bg-purple-500",
           ];
           const colorClass = colors[index % colors.length];
@@ -117,11 +116,8 @@ function Home() {
       {/* Password Entry Overlay */}
       {passwordDisplay && (
         <div
-          className={`fixed inset-0 bg-black/70 flex items-center justify-center z-50 `}
-          onClick={() => {
-            setFadeOut(true);
-            setTimeout(() => setPasswordDisplay(false), 200);
-          }}
+          className={`fixed inset-0 bg-black/70 flex items-center justify-center z-50`}
+          onClick={() => setPasswordDisplay(false)}
         >
           <div
             className="relative bg-gray-900 rounded-2xl shadow-2xl w-80 max-w-full p-6 flex flex-col items-center space-y-6"
@@ -149,10 +145,7 @@ function Home() {
             </div>
 
             <button
-              onClick={() => {
-                setFadeOut(true);
-                setTimeout(() => setPasswordDisplay(false), 200);
-              }}
+              onClick={() => setPasswordDisplay(false)}
               className="text-gray-400 text-sm hover:text-white transition"
             >
               Cancel
