@@ -42,10 +42,28 @@ function Home() {
       isKidsProfile: false,
       passwordNeeded: false,
     },
-    { id: 4, name: "Daisy", age: 8, isKidsProfile: true, passwordNeeded: false },
+    {
+      id: 4,
+      name: "Daisy",
+      age: 8,
+      isKidsProfile: true,
+      passwordNeeded: false,
+    },
     { id: 5, name: "Eve", age: 15, isKidsProfile: false, passwordNeeded: true },
-    { id: 6, name: "Frank", age: 40, isKidsProfile: false, passwordNeeded: true },
-    { id: 7, name: "Grace", age: 12, isKidsProfile: true, passwordNeeded: false },
+    {
+      id: 6,
+      name: "Frank",
+      age: 40,
+      isKidsProfile: false,
+      passwordNeeded: true,
+    },
+    {
+      id: 7,
+      name: "Grace",
+      age: 12,
+      isKidsProfile: true,
+      passwordNeeded: false,
+    },
   ];
 
   function handleProfileClick(profile: Profile) {
@@ -56,7 +74,10 @@ function Home() {
       setPasswordDisplay(true);
       setFadeOut(false);
     } else {
-      nav("/browse", { state: { profile } });
+      setFadeOut(true);
+      setTimeout(() => {
+        nav("/browse", { state: { profile } });
+      }, 200);
     }
   }
 
@@ -83,7 +104,7 @@ function Home() {
         fadeOut ? "opacity-0" : "opacity-100"
       }`}
     >
-      <h1 className="text-5xl mb-4 font-thin">Who's watching?</h1>
+      <h1 className="text-5xl mb-6 font-thin">Who's watching?</h1>
       <div className="flex space-x-4">
         {profiles.map((profile, index) => {
           const colors = [
@@ -94,7 +115,16 @@ function Home() {
             "bg-blue-500",
             "bg-purple-500",
           ];
+          const hoverColors = [
+            "hover:bg-red-800",
+            "hover:bg-orange-700",
+            "hover:bg-yellow-600",
+            "hover:bg-green-700",
+            "hover:bg-blue-800",
+            "hover:bg-purple-800",
+          ];
           const colorClass = colors[index % colors.length];
+          const hoverColorClass = hoverColors[index % hoverColors.length];
 
           return (
             <div
@@ -102,7 +132,7 @@ function Home() {
               className="flex flex-col items-center cursor-pointer"
             >
               <div
-                className={`w-24 h-24 rounded-2xl flex items-center justify-center text-xl font-semibold ${colorClass}`}
+                className={`w-24 h-24 rounded-2xl flex items-center justify-center text-xl font-semibold ${colorClass} ${hoverColorClass} transition-colors duration-200`}
                 onClick={() => handleProfileClick(profile)}
               >
                 {profile.name.charAt(0)}
