@@ -3,13 +3,6 @@ import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 
-/**
- * Yes, Netflix has age restrictions and a comprehensive set of parental controls that allow you to manage the maturity ratings for different profiles,
- * including setting up a "Kids" profile with content limited to ages 12 and under.
- * You can also block specific shows or movies, lock profiles with a PIN,
- * and access viewing history to ensure children only see age-appropriate content on the service
- */
-
 interface Profile {
   id: number;
   name: string;
@@ -55,7 +48,9 @@ function Home() {
     };
   }
 
-  function addProfile() {
+  function addProfile(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
     if (email) {
       axios
         .post(
@@ -78,6 +73,7 @@ function Home() {
             ...prevProfiles,
             mapToProfile(response.data),
           ]);
+          window.location.reload();
         })
         .catch((error) => {
           console.error("Error adding profile:", error);
@@ -103,7 +99,7 @@ function Home() {
     } else {
       setFadeOut(true);
       setTimeout(() => {
-        nav("/browse", { state: { profile } });
+        nav("/browse", { state: { profile, email } });
       }, 200);
     }
   }
@@ -112,11 +108,15 @@ function Home() {
     // Password verification will eventually go here
     if (clickedProfile && clickedProfile.name.split(":")[1] === "Locked") {
       axios
-        .post(`/api/profiles/verifyPassword/${clickedProfile.id}?password=${password}`, {}, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        })
+        .post(
+          `/api/profiles/verifyPassword/${clickedProfile.id}?password=${password}`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        )
         .then((res) => {
           if (res.data) {
             setFadeOut(true);
@@ -124,7 +124,9 @@ function Home() {
             setTimeout(() => {
               setPasswordDisplay(false);
               setEnteredPassword("");
-              nav("/browse", { state: { profile: clickedProfile } });
+              nav("/browse", {
+                state: { profile: clickedProfile, email: email },
+              });
             }, 200);
           } else {
             alert("Incorrect password. Please try again.");
@@ -204,7 +206,10 @@ function Home() {
             onClick={(e) => e.stopPropagation()}
           >
             <h2 className="text-3xl font-bold mb-6 text-center">New Profile</h2>
-            <form className="flex flex-col gap-4" onSubmit={addProfile}>
+            <form
+              className="flex flex-col gap-4"
+              onSubmit={(e) => addProfile(e)}
+            >
               <div className="flex flex-col">
                 <label className="mb-1 text-sm font-semibold">
                   Profile Name:
@@ -236,7 +241,9 @@ function Home() {
 
               {passwordProtected && (
                 <div className="flex flex-col">
-                  <label className="mb-1 text-sm font-semibold">Password:</label>
+                  <label className="mb-1 text-sm font-semibold">
+                    Password:
+                  </label>
                   <input
                     type="password"
                     className="p-3 rounded bg-gray-400 text-netflix-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-netflix-red"

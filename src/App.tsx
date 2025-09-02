@@ -5,13 +5,14 @@ import { AuthProvider } from "./Components/AuthContext";
 import Profiles from "./Components/Login/profiles";
 import Login from "./Components/Login/login";
 import Register from "./Components/Login/register";
+import Browse from "./Components/Browsing/browse";
 
 function App() {
   return (
     <AuthProvider>
-      <div className="App">
+      <div className="App absolute top-0 left-0 w-full h-full bg-netflix-black text-netflix-white overflow-auto">
         {/* Logo */}
-        <div className="absolute top-4 left-4 text-5xl font-extrabold text-netflix-red tracking-wider shadow-lg">
+        <div className="fixed top-4 left-4 text-5xl font-extrabold text-netflix-red tracking-wider shadow-lg">
           TechFlix
         </div>
 
@@ -22,6 +23,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/profiles" element={<Profiles />} />
+            <Route path="/browse" element={<Browse />} />
           </Routes>
         </BrowserRouter>
 
