@@ -1,11 +1,24 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
+import Logout from "../Login/logout";
+
 interface Profile {
   id: number;
   name: string;
   age: number;
   password?: string;
+}
+
+interface Movie {
+  id: number;
+  description: string;
+  genre: string;
+  moviePoster: string;
+  rating: string;
+  release_date: string;
+  title: string;
+  videoUrl: string;
 }
 
 function Browse() {
@@ -41,13 +54,25 @@ function Browse() {
 
   const [showSettingsTab, setShowSettingsTab] = useState(false);
   const [firstAppearance, setFirstAppearance] = useState(true);
+  const [movieData, setMovieData] = useState<Movie[]>([]);
 
   useEffect(() => {
-    if (firstAppearance) {
-      // Perform any actions needed on first appearance
-      setFirstAppearance(false);
+    function filterRestrictedContent(): Movie[] {
+      let updatedMovieData: Movie[] = [];
+
+      if (profile.age < 12) {
+        updatedMovieData = movieData.filter(
+          (movie) => movie.rating === "G" || movie.rating === "PG"
+        );
+      }
+      return updatedMovieData;
     }
-  }, [firstAppearance]);
+
+    if (firstAppearance) {
+      setFirstAppearance(false);
+      setMovieData(filterRestrictedContent());
+    }
+  }, [firstAppearance, profile, movieData]);
 
   return (
     <div
@@ -56,6 +81,7 @@ function Browse() {
       }`}
       style={{ backgroundImage: "url('/star_destroyer.png')" }}
     >
+      <Logout />
       {/** Settings Icon */}
       <div className="fixed top-0 right-0 m-4 w-10 h-10 cursor-pointer z-50">
         <img

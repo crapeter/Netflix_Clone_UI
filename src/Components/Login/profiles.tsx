@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 
+import Logout from "../Login/logout";
+
 interface Profile {
   id: number;
   name: string;
@@ -26,6 +28,7 @@ function Home() {
   const [newProfileName, setNewProfileName] = useState("");
   const [newProfileAge, setNewProfileAge] = useState(0);
   const [newProfilePassword, setNewProfilePassword] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     if (email) {
@@ -35,6 +38,20 @@ function Home() {
         })
         .then((response) => {
           setProfiles(response.data.map(mapToProfile));
+        })
+        .catch((error) => {
+          console.error("Error fetching profiles:", error);
+        });
+
+      axios
+        .get(`/api/users/${email}/isAdmin`, {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        })
+        .then((response) => {
+          setIsAdmin(response.data.isAdmin);
+        })
+        .catch((error) => {
+          console.error("Error checking admin status:", error);
         });
     }
   }, [email]);
@@ -144,6 +161,17 @@ function Home() {
         fadeOut ? "opacity-0" : "opacity-100"
       }`}
     >
+      <Logout />
+      {isAdmin && (
+        <div className="absolute top-4 right-4 z-100 text-lg font-semibold bg-netflix-red text-white rounded-lg hover:bg-red-700 transition p-2 cursor-pointer">
+          <button
+            onClick={() => nav("/admin", { state: { email } })}
+            className="hover:cursor-pointer"
+          >
+            Go to Admin
+          </button>
+        </div>
+      )}
       <h1 className="text-5xl mb-6 font-thin">Who's watching?</h1>
       <div className="flex space-x-4">
         {profiles.map((profile, index) => {
@@ -189,7 +217,7 @@ function Home() {
           onClick={() => {
             handleNewProfileClick();
           }}
-          className="mt-4 px-4 py-2 bg-netflix-red text-white rounded-lg hover:bg-red-700 transition"
+          className="mt-4 px-4 py-2 bg-netflix-red text-white rounded-lg hover:bg-red-700 transition cursor-pointer"
         >
           Add Profile
         </button>
@@ -258,6 +286,13 @@ function Home() {
                 className="mt-4 px-4 py-2 bg-netflix-red text-white rounded-lg hover:bg-red-700 transition"
               >
                 Add Profile
+              </button>
+              <button
+                type="button"
+                className="mt-2 px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition"
+                onClick={() => setNewProfileDisplay(false)}
+              >
+                Cancel
               </button>
             </form>
           </div>
