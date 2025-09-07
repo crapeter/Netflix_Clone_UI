@@ -11,9 +11,9 @@ import Admin from "./Components/AdminFeatures/admin";
 function App() {
   return (
     <AuthProvider>
-      <div className="App absolute top-0 left-0 w-full h-full bg-netflix-black text-netflix-white overflow-auto">
+      <div className="App absolute top-0 left-0 w-full h-full bg-netflix-black text-netflix-white overflow-x-hidden">
         {/* Logo */}
-        <div className="fixed top-4 left-4 text-5xl font-extrabold text-netflix-red tracking-wider shadow-lg">
+        <div className="absolute top-4 left-4 text-5xl font-extrabold text-netflix-red tracking-wider shadow-lg">
           TechFlix
         </div>
 

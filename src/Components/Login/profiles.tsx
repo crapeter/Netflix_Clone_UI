@@ -28,7 +28,6 @@ function Home() {
   const [newProfileName, setNewProfileName] = useState("");
   const [newProfileAge, setNewProfileAge] = useState(0);
   const [newProfilePassword, setNewProfilePassword] = useState("");
-  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     if (email) {
@@ -41,17 +40,6 @@ function Home() {
         })
         .catch((error) => {
           console.error("Error fetching profiles:", error);
-        });
-
-      axios
-        .get(`/api/users/${email}/isAdmin`, {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        })
-        .then((response) => {
-          setIsAdmin(response.data.isAdmin);
-        })
-        .catch((error) => {
-          console.error("Error checking admin status:", error);
         });
     }
   }, [email]);
@@ -162,16 +150,6 @@ function Home() {
       }`}
     >
       <Logout />
-      {isAdmin && (
-        <div className="absolute top-4 right-4 z-100 text-lg font-semibold bg-netflix-red text-white rounded-lg hover:bg-red-700 transition p-2 cursor-pointer">
-          <button
-            onClick={() => nav("/admin", { state: { email } })}
-            className="hover:cursor-pointer"
-          >
-            Go to Admin
-          </button>
-        </div>
-      )}
       <h1 className="text-5xl mb-6 font-thin">Who's watching?</h1>
       <div className="flex space-x-4">
         {profiles.map((profile, index) => {

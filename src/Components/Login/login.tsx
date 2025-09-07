@@ -36,13 +36,29 @@ function Login() {
       .then((response) => {
         if (response.data.token) {
           localStorage.setItem("token", response.data.token);
-          nav("/profiles", { state: { email: user.email } });
         } else {
           console.log("Login failed: Invalid credentials");
         }
       })
       .catch((err) => {
         console.error(err);
+      });
+
+    await axios
+      .get(`/api/users/${email}/isAdmin`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      })
+      .then((response) => {
+        if (response.data.isAdmin) {
+          nav("/admin", {
+            state: { email: email, admin: response.data.isAdmin },
+          });
+        } else {
+          nav("/profiles", { state: { email: user.email } });
+        }
+      })
+      .catch((error) => {
+        console.error("Error checking admin status:", error);
       });
   }
 
