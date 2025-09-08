@@ -124,7 +124,7 @@ function Admin() {
           <Logout />
 
           {/* Example: Form to add new movie */}
-          <div>
+          <div className="max-w-6/10 min-w-1/10 flex flex-col items-center mx-auto mt-10 p-6 border rounded shadow">
             <form onSubmit={handleAddMovie}>
               <h2 className="text-2xl font-bold mb-4">Add New Movie</h2>
               <input
@@ -159,7 +159,11 @@ function Admin() {
                   Select Genre
                 </option>
                 {movieCategories.map((category) => (
-                  <option key={category} value={category}>
+                  <option
+                    key={category}
+                    value={category}
+                    className="text-black"
+                  >
                     {category}
                   </option>
                 ))}
@@ -186,37 +190,43 @@ function Admin() {
                   Select Rating
                 </option>
                 {movieRating.map((rating) => (
-                  <option key={rating} value={rating}>
+                  <option key={rating} value={rating} className="text-black">
                     {rating}
                   </option>
                 ))}
               </select>
-              <input
-                type="file"
-                className="border p-2 mb-2 w-full"
-                required
-                onChange={(e) => {
-                  if (e.target.files && e.target.files[0]) {
-                    setNewMovie({
-                      ...newMovie,
-                      moviePoster: e.target.files[0].name,
-                    });
-                  }
-                }}
-              />
-              <input
-                type="file"
-                className="border p-2 mb-2 w-full"
-                required
-                onChange={(e) => {
-                  if (e.target.files && e.target.files[0]) {
-                    setNewMovie({
-                      ...newMovie,
-                      videoURL: e.target.files[0].name,
-                    });
-                  }
-                }}
-              />
+              <div>
+                <div className="text-left">Movie Poster File</div>
+                <input
+                  type="file"
+                  className="border p-2 mb-2 w-full"
+                  required
+                  onChange={(e) => {
+                    if (e.target.files && e.target.files[0]) {
+                      setNewMovie({
+                        ...newMovie,
+                        moviePoster: e.target.files[0].name,
+                      });
+                    }
+                  }}
+                />
+              </div>
+              <div>
+                <div className="text-left">Movie Video File</div>
+                <input
+                  type="file"
+                  className="border p-2 mb-2 w-full"
+                  required
+                  onChange={(e) => {
+                    if (e.target.files && e.target.files[0]) {
+                      setNewMovie({
+                        ...newMovie,
+                        videoURL: e.target.files[0].name,
+                      });
+                    }
+                  }}
+                />
+              </div>
               <textarea
                 placeholder="Description"
                 className="border p-2 mb-2 w-full"
