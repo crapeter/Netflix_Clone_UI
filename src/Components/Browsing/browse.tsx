@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 
 import Logout from "../Login/logout";
+import MoviePoster from "../Movie/moviePoster";
 
 interface Profile {
   id: number;
@@ -91,7 +92,7 @@ function Browse() {
       setFirstAppearance(false);
       fetchAllMovies();
     }
-  }, [firstAppearance, profile, movieData]);
+  }, [firstAppearance, profile]);
 
   async function playMovie(movie: Movie) {
     try {
@@ -193,16 +194,15 @@ function Browse() {
                       .map((movie) => (
                         <div
                           key={movie.id}
-                          className="w-40 h-60 bg-netflix-red flex-shrink-0 rounded hover:cursor-pointer"
-                          onClick={() => {
-                            playMovie(movie);
-                          }}
+                          className="w-60 h-80 flex-shrink-0 rounded-2xl hover:cursor-pointer border-2 border-transparent hover:border-netflix-red overflow-hidden"
+                          onClick={() => playMovie(movie)}
                         >
-                          <img
-                            src={`C:/Users/Owner/OneDrive/Documents/Netflix_Clone/MoviePosters/${movie.moviePoster}`}
-                            alt={movie.title}
-                            className="w-full h-full object-cover rounded"
-                          />
+                          <div className="w-full h-full">
+                            <MoviePoster
+                              filename={movie.moviePoster}
+                              title={movie.title}
+                            />
+                          </div>
                         </div>
                       ))}
                   </div>
