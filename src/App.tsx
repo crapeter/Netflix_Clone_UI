@@ -7,6 +7,7 @@ import Login from "./Components/Login/login";
 import Register from "./Components/Login/register";
 import Browse from "./Components/Browsing/browse";
 import Admin from "./Components/AdminFeatures/admin";
+import Search from "./Components/Movie/search";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/profiles" element={<Profiles />} />
             <Route path="/browse" element={<Browse />} />
+            <Route path="/search" element={<Search />} />
             <Route path="/admin" element={<Admin />} />
           </Routes>
         </BrowserRouter>

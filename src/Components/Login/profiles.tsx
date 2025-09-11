@@ -1,16 +1,10 @@
 import "../../CSS/home.css";
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import type { Profile } from "../../Types/Index";
 import axios from "axios";
 
 import Logout from "../Login/logout";
-
-interface Profile {
-  id: number;
-  name: string;
-  age: number;
-  password?: string;
-}
 
 function Home() {
   const nav = useNavigate();

@@ -18,7 +18,7 @@ interface Movie {
   releaseDate?: string;
   genre: string;
   rating?: string;
-  moviePoster?: string; // URL to the movie poster image
+  moviePoster?: string;
   videoURL?: string;
 }
 
